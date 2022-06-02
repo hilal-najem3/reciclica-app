@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick } from '@angul
 import { IonicModule } from '@ionic/angular';
 
 import { LoginPage } from './login.page';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -13,7 +14,7 @@ describe('LoginPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginPage ],
-      imports: [IonicModule.forRoot(), AppRoutingModule]
+      imports: [IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginPage);
@@ -22,6 +23,12 @@ describe('LoginPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
+
+  it('should create form on init', () => {
+    component.ngOnInit();
+
+    expect(component.form).not.toBeUndefined();
+  });
 
   it('should go to home page after login', fakeAsync(() => {
     spyOn(router, 'navigate');
