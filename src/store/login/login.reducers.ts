@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
-import { recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from './login.actions';
-import { Action, createReducer, on } from '@ngrx/store';
+import { login, loginFail, loginSuccess, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from './login.actions';
+import { createReducer, on } from '@ngrx/store';
 import { LoginState } from './LoginState';
 
 const initialState: LoginState = {
@@ -35,7 +35,31 @@ const reducer = createReducer(initialState,
             isRecoveredPassword: false,
             isRecoveringPassword: false
         };
-    })
+    }),
+    on(login, currentState => {
+        return {
+            ...currentState,
+            error: null,
+            isLoggedIn: false,
+            isLoggingIn: true
+        };
+    }),
+    on(loginSuccess, currentState => {
+        return {
+            ...currentState,
+            error: null,
+            isLoggedIn: true,
+            isLoggingIn: false
+        };
+    }),
+    on(loginFail, (currentState, action) => {
+        return {
+            ...currentState,
+            error: action.error,
+            isLoggedIn: false,
+            isLoggingIn: false
+        };
+    }),
     );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
